@@ -9,3 +9,14 @@
 /Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.AssemblyInfo.cs
 /Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.dll
 /Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.pdb
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/bin/Debug/netcoreapp3.0/Jon_Lander_Bankers
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/bin/Debug/netcoreapp3.0/Jon_Lander_Bankers.deps.json
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/bin/Debug/netcoreapp3.0/Jon_Lander_Bankers.runtimeconfig.json
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/bin/Debug/netcoreapp3.0/Jon_Lander_Bankers.runtimeconfig.dev.json
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/bin/Debug/netcoreapp3.0/Jon_Lander_Bankers.dll
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/bin/Debug/netcoreapp3.0/Jon_Lander_Bankers.pdb
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.csprojAssemblyReference.cache
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.AssemblyInfoInputs.cache
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.AssemblyInfo.cs
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.dll
+/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/obj/Debug/netcoreapp3.0/Jon_Lander_Bankers.pdb

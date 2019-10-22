@@ -18,50 +18,88 @@ namespace Jon_Lander_Bankers
         */
         static void Main(string[] args)
         {
+            //Get relative to the project folder
             string path = Directory.GetCurrentDirectory();
-            FileParser fileParser = new FileParser(path + "/test.txt");
+            //Get the datafile and parse the file.
+            FileParser fileParser = new FileParser(path + "/data.txt");
+            //Initialize the the arrays by grabbing from the file parser class
             int[] instances = fileParser.getInstances();
             int[,] processes = fileParser.getProcesses();
             int[,] maxProcesses = fileParser.getMaxProcesses();
+            //Print out the info that was just passed to the variables
             fileParser.printInfo();
+            /******************************* BONUS ********************************/
+            //Multiple Inputs
             Boolean done = false;
-            
             while(!done){
-                int processToUpdate = getRequestedProcess();
-                int[] req = getRequest(processes.GetLength(1));
-                for(int i = 0; i < processes.GetLength(1); i++){
-                    processes[processToUpdate, i] += req[i];
+                //Catch any issues that could have occured from user input
+                try{
+                    //get the process that needs updated
+                    int processToUpdate = getRequestedProcess();
+                    //grab the n number of each resource for the given process
+                    int[] req = getRequest(processes.GetLength(1));
+                    //update the instance
+                    for(int i = 0; i < processes.GetLength(1); i++){
+                        processes[processToUpdate, i] += req[i];
+                    }
                 }
-                Console.WriteLine("Enter another process request before running? y/n");
-                String yesNo = Console.ReadLine();
-                if(yesNo != "y" && yesNo != "Y" && yesNo != "yes" && yesNo != "Yes" && yesNo != "YES"){
+                catch{
+                    Console.WriteLine("You did not have the correct input, skipping this part.");
                     done = true;
                 }
-                else{
-                    done = false;
+                if(!done){
+                    //ask to do it again
+                    Console.WriteLine("Enter another process request before running? y/n");
+                    //if it is anything else other than the following just make it as no.
+                    String yesNo = Console.ReadLine();
+                    if(yesNo != "y" && yesNo != "Y" && yesNo != "yes" && yesNo != "Yes" && yesNo != "YES"){
+                        done = true;
+                    }
+                    else{
+                        done = false;
+                    }
                 }
             }
+            /******************************* BONUS ********************************/
+            //Print updated processes
             printInfo(processes,maxProcesses);
-            ResourceRequest resourceRequest = new ResourceRequest(instances, processes, maxProcesses);
+            //safetyCheck and tell if it succeeded.
+            SafetyCheck safetyCheck = new SafetyCheck(instances, processes, maxProcesses);
+            //print Final results.
+            Console.WriteLine("Safe Sequence:");
+            safetyCheck.printResults();
         }
+        //getRequest (takes the process length)
+        //it returns the array of the updated process.
         public static int[] getRequest(int process){
+            //seperate the input by spaces
             char[] sepearator = {' '};
             Console.Write("Enter Request for the resource: ");
             String line = Console.ReadLine();
+            //convert the string to an array
             String[] lines = line.Split(sepearator, process, StringSplitOptions.None);
+            //set the return value to the length of lines
             int[] request = new int[lines.Length];
+            //assign values
             for(int i =0; i < request.Length; i++){
                 request[i] = Int32.Parse(lines[i]);
             }
+            //return updated array
             return request;
         }
+        //getRequestedProcess returns that process that will be updated in the future
+        //Returns the process number
         public static int getRequestedProcess(){
             Console.Write("Enter Process for request: ");
             String request = Console.ReadLine();
+            //parse from string to integer
             int requested = Int32.Parse(request);
             return requested;
         }
+        //provides information of the current instances of each array in a friendly way
+        //passes the state of processes and maxProcesses
         public static void printInfo(int[,] processes, int[,] maxProcesses){
+            //Simply loops through each array printing the current state
             for(int i =0; i < processes.GetLength(0);i++){
                 Console.Write("Process " + i + ": ");
                 for (int j = 0; j< processes.GetLength(1);j++){
@@ -78,17 +116,24 @@ namespace Jon_Lander_Bankers
             }
         }
     }
-
+    //FileParse class is responsible for reading the file and assgining all the values to the right arrays. (Should not need any error correction)
     class FileParser{
+        //declare the values that will be initialized in the constructor
         int[] instances;
         int[,] processes;
         int[,] maxProcesses;
         string path;
+        //Constructor takes the path of the file and begins to assign its values.
         public FileParser(string path){
+            //assign to local variable
             this.path = path;
+            //grabs the file content and stores each line in a string array
             String[] text  = getFileContents(path);
+            //assigns the instances to instances varaible
             instances = getInstances(getResourcesTypes(text), text);
+            //assigns the processes to the processes array
             processes = new int[getProcesses(text), instances.Length];
+            //also grabs the maxprocesses from the file.
             maxProcesses = new int[getProcesses(text), instances.Length];
             //Console.WriteLine(processes.GetLength(0));
             //Console.WriteLine(processes.GetLength(1));
@@ -114,7 +159,7 @@ namespace Jon_Lander_Bankers
         private  int getResourcesTypes(String[] text){
             return Int32.Parse(text[1]);
         }
-        //get max 
+        
         private int[] getInstances(int resources, String[] text){
             char[] sepearator = {' '};
             String[] resourcesArr = text[2].Split(sepearator,resources,StringSplitOptions.None);
@@ -134,7 +179,7 @@ namespace Jon_Lander_Bankers
             }
             return processes;
         }
-
+        //get max 
         private int[,] getMaxProcesses(int[,] processes, String[] text){
             char[] sepearator = {' '};
             for(int i = 0; i < processes.GetLength(0); i++){
@@ -145,6 +190,7 @@ namespace Jon_Lander_Bankers
             }
             return processes;
         }
+        //print the current state of this class (same as the main function one)
         public void printInfo(){
             for(int i =0; i < processes.GetLength(0);i++){
                 Console.Write("Process " + i + ": ");
@@ -161,6 +207,7 @@ namespace Jon_Lander_Bankers
                 Console.Write("\n");
             }
         }
+        //simple get statements for the main class
         public int[] getInstances(){
             return instances;
         }
@@ -172,35 +219,56 @@ namespace Jon_Lander_Bankers
         }
     }
 
-    class ResourceRequest{
+    //SafetyCheck is responsible of seeing if it is possible to finish all the proccesses without deadlocks.
+    class SafetyCheck{
+        //delcare variables that will be used throughout.
         int[] instances;
         int[,] processes;
         int[,] maxProcesses;
         int[] currentInstance;
+        //for printing the string
         List<String> order = new List<string>();
-        public ResourceRequest(int[] instances, int[,] processes, int[,] maxProcesses)
+        //constructor takes all the arrays to do its calculations
+        public SafetyCheck(int[] instances, int[,] processes, int[,] maxProcesses)
         {
+            //assigns parameters to 
             this.instances = instances;
             this.processes = processes;
             this.maxProcesses = maxProcesses;
+            //current state of the insstances
             currentInstance = instances;
+            //set the current instances
             setCurrentInstance();
+            //print the instances out
+            /*
             for(int i = 0; i < currentInstance.Length; i++){
                 Console.WriteLine(currentInstance[i]);
-            }
+            }*/
+            //perform the saftey check
             safteyCheck();
-            for(int i =0; i< order.Count ;i++){
-                if (i == 0){
-                    Console.Write("<");
+        }
+        //print out the results
+        public void printResults(){
+            //print out the results
+            if(order.Count < processes.GetLength(0)){
+                Console.WriteLine("A deadlock has occured. Could not process all processes.");
+            }
+            else{
+                for(int i =0; i< order.Count ;i++){
+                    if (i == 0){
+                        Console.Write("<");
+                    }
+                    if (i ==order.Count-1){
+                        Console.Write(order[i] + ">");
+                    }else{
+                        Console.Write(order[i] + ", ");
+                    }
                 }
-                if (i ==order.Count-1){
-                    Console.Write(order[i] + ">");
-                }else{
-                    Console.Write(order[i] + ", ");
-                }
+                Console.Write("\n");
+                Console.ReadKey();
             }
         }
-
+        //sets the currentInstances Variable
         private void setCurrentInstance(){
             for(int i = 0; i < processes.GetLength(0); i++){
                 for(int j = 0; j < processes.GetLength(1); j++){
@@ -208,20 +276,27 @@ namespace Jon_Lander_Bankers
                 }
             }
         }
-
-
+        //Performs the basic safteyCheck.
         private void safteyCheck(){
+            //tells if index needs reset (precents a 3rd loop)
             Boolean resetIndex = false;
+            //go through all processses
             for(int i = 0; i < processes.GetLength(0); i++){
+                //if index needs reset the reset it
                 if(resetIndex){
                     i=0;
                 }
+                //tell if the proccess can be satified.
                 Boolean failed = false;
+                //count to check if the process is all zeros or not
                 int count=0;
+                //go through each instance of each process
                 for (int j = 0; j < processes.GetLength(1);j++){
+                    //if its zero the add to count
                     if(processes[i,j]==0){
                         count++;
                     }
+                    //see if each instances of the process is posisble or not. (if it fails at all then stop checking all together.)
                     if(maxProcesses[i,j] <= currentInstance[j]+processes[i,j] && !failed){
                         failed = false;
                     }
@@ -229,20 +304,27 @@ namespace Jon_Lander_Bankers
                         failed = true;
                     }
                 }
+                //check the results
+                //if didnt fail and the process isn't all zeros
                 if(!failed && count < 3){
+                    //add the processes resources to the currentInstance
                     for(int j = 0; j < processes.GetLength(1); j++){
                         currentInstance[j] += processes[i,j];
+                        //set all process instances to zero
                         processes[i,j] = 0;
                     }
+                    //add to the order list
                     order.Add("P" + i);
+                    //reset the index
                     resetIndex = true;
                 }
                 else{
+                    //dont reset the index
                     resetIndex = false;
                 }
             }
         }
-        
+        //Recursive version.
         private void safteyCheckRecursive(int[,] process, int[] currentInstances){
             for(int i = 0; i < processes.GetLength(0); i++){
                 int count = 0;

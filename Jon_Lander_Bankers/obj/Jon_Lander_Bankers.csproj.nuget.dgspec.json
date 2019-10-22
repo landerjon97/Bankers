@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj": {}
+    "/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj": {}
   },
   "projects": {
-    "/Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj": {
+    "/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj",
+        "projectUniqueName": "/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj",
         "projectName": "Jon_Lander_Bankers",
-        "projectPath": "/Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj",
+        "projectPath": "/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/Jon_Lander_Bankers.csproj",
         "packagesPath": "/Users/jonlander/.nuget/packages/",
-        "outputPath": "/Users/jonlander/Projects/CIS 355/Bankers/Jon_Lander_Bankers/obj/",
+        "outputPath": "/Users/jonlander/Projects/bankers/Bankers/Jon_Lander_Bankers/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
